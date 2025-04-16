@@ -1,8 +1,3 @@
-<canvas id="gameCanvas" width="400" height="400" style="border:1px solid black;"></canvas>
-<div id="messageBox" style="margin-top:10px; font-size:18px;"></div>
-<img id="finalImage" src="final.png" style="display:none; width:400px; height:400px;"/>
-
-<script>
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 let isPaused = false;
@@ -54,7 +49,7 @@ function gameLoop() {
 
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
-  // Kenar keçid
+  // === Kenar keçidini təmin et ===
   if (head.x < 0) head.x = canvas.width - gridSize;
   else if (head.x >= canvas.width) head.x = 0;
   if (head.y < 0) head.y = canvas.height - gridSize;
@@ -86,7 +81,6 @@ function gameLoop() {
     snake.pop();
   }
 
-  // Uzun dar ilan
   ctx.fillStyle = "#fa0";
   snake.forEach(segment => {
     ctx.fillRect(segment.x, segment.y, gridSize / 1.5, gridSize);
@@ -94,7 +88,6 @@ function gameLoop() {
 
   drawHeart(food.x, food.y);
 }
-
 document.addEventListener("keydown", e => {
   switch (e.key) {
     case "ArrowLeft": if (dx === 0) { dx = -gridSize; dy = 0; } break;
@@ -105,4 +98,3 @@ document.addEventListener("keydown", e => {
 });
 
 gameLoop();
-</script>
