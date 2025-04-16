@@ -50,18 +50,19 @@ function gameLoop() {
 
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
-  if (!isPaused && (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
-    snake.some(segment => segment.x === head.x && segment.y === head.y))) {
+ if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
+    snake.some(segment => segment.x === head.x && segment.y === head.y)) {
 
-  isPaused = true; // effekti 1 dəfəlik ver
   document.getElementById("messageBox").textContent = "Ac ayı bir az çaşdı 😅";
-  canvas.style.backgroundColor = "rgba(255,0,0,0.5)";
 
+  // Qırmızı ekran effekti
+  canvas.style.backgroundColor = "rgba(255,0,0,0.5)";
   setTimeout(() => {
     canvas.style.backgroundColor = "white";
     document.getElementById("messageBox").textContent = "";
-    isPaused = false;
-  }, 3000); // 3 saniyəlik dayansın
+  }, 300);
+  
+  // Amma return ETMİRİK — oyun davam edir!
 }
 
 
