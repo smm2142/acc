@@ -9,11 +9,11 @@ let dx = gridSize;
 let dy = 0;
 let food = getRandomFood();
 let messages = [
-  "Səni gördükcə ürəyim doymur ❤️",
-  "Hər gülüşündə bir az daha aşiq oluram 😍",
-  "Səninlə olmaq ən şirin yemək kimidi 🍯",
-  "Səni sevdikcə ürəyim böyüyür 💗",
-  "Ac ayı indi sadəcə sənə toxdu 🐻❤️"
+  "Ac ayı dərs edə bilməz",
+  "Mısıx dolurmu?",
+  "Yolu yarıladın dosdaar",
+  "Sebdikcə böyümürükmü?",
+  "Ac ayı artıq toxdu 🐻❤️"
 ];
 let currentMessageIndex = 0;
 let gameEnded = false;
@@ -41,7 +41,7 @@ function gameLoop() {
 
   requestAnimationFrame(gameLoop);
 
-  if (++count < 20) return;
+  if (++count < 10) return;
   count = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
