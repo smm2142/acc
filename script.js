@@ -43,7 +43,7 @@ function gameLoop() {
 
   requestAnimationFrame(gameLoop);
 
-  if (++count = 30) return;
+  if (++count < 30) return;
   count = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -72,14 +72,14 @@ function gameLoop() {
     heartsEaten++;
 
     // Romantik mesajlar
-    if (heartsEaten % 2 === 0 && currentMessageIndex < messages.length) {
+    if (heartsEaten % 3 === 0 && currentMessageIndex < messages.length) {
       document.getElementById("messageBox").textContent = messages[currentMessageIndex++];
     } else {
       document.getElementById("messageBox").textContent = "";
     }
 
     // 30 ürək yeyildikdə final şəkli göstər
-    if (heartsEaten === 10) {
+    if (heartsEaten === 15) {
       document.getElementById("gameCanvas").style.display = "none";
       document.getElementById("finalImage").style.display = "block";
       setTimeout(() => {
