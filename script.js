@@ -41,7 +41,7 @@ function gameLoop() {
 
   requestAnimationFrame(gameLoop);
 
-  if (++count < 6) return;
+  if (++count < 8) return;
   count = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -50,15 +50,16 @@ function gameLoop() {
 
   if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
     snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-  
-  document.getElementById("messageBox").textContent = "Ac ayı bir az çaşdı ";
 
-  
+  document.getElementById("messageBox").textContent = "Ac ayı bir az çaşdı 😅";
   canvas.style.backgroundColor = "rgba(255,0,0,0.5)";
   setTimeout(() => {
     canvas.style.backgroundColor = "white";
-  }, 200);
+    document.getElementById("messageBox").textContent = "";
+  }, 300);
+  
 }
+
 
   snake.unshift(head);
 
