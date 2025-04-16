@@ -1,6 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-let isPaused = false;
+
 
 let gridSize = 20;
 let count = 0;
@@ -38,7 +38,7 @@ function drawHeart(x, y) {
 }
 
 function gameLoop() {
-  if (isPaused) return;
+  
   if (gameEnded) return;
 
   requestAnimationFrame(gameLoop);
