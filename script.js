@@ -1,7 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-
 let gridSize = 20;
 let count = 0;
 let heartsEaten = 0;
@@ -10,11 +9,11 @@ let dx = gridSize;
 let dy = 0;
 let food = getRandomFood();
 let messages = [
-  "Ac ayı dərs edə bilməz",
+"Ac ayı dərs edə bilməz",
   "Mısıx dolurmu?",
   "Yolu yarıladın dosdaar",
   "Sebdikcə böyümürükmü?",
-  "Ac ayı artıq toxdu 🐻❤️"
+  "Ac ayı artıq toxdu 🐻❤
 ];
 let currentMessageIndex = 0;
 let gameEnded = false;
@@ -38,34 +37,22 @@ function drawHeart(x, y) {
 }
 
 function gameLoop() {
-  
   if (gameEnded) return;
 
   requestAnimationFrame(gameLoop);
 
-  if (++count < 30) return;
+  if (++count < 10) return;
   count = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
- if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
-    snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-
-  document.getElementById("messageBox").textContent = "Ac ayı bir az çaşdı 😅";
-
-  // Qırmızı ekran effekti
-  canvas.style.backgroundColor = "rgba(255,0,0,0.5)";
-  setTimeout(() => {
-    canvas.style.backgroundColor = "white";
-    document.getElementById("messageBox").textContent = "";
-  }, 300);
-  
-  // Amma return ETMİRİK — oyun davam edir!
-}
-
-
+  if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
+      snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+    document.getElementById("messageBox").textContent = "Oyun bitdi 😢";
+    return;
+  }
 
   snake.unshift(head);
 
@@ -73,14 +60,14 @@ function gameLoop() {
     heartsEaten++;
 
     // Romantik mesajlar
-    if (heartsEaten % 3 === 0 && currentMessageIndex < messages.length) {
+    if (heartsEaten % 2 === 0 && currentMessageIndex < messages.length) {
       document.getElementById("messageBox").textContent = messages[currentMessageIndex++];
     } else {
       document.getElementById("messageBox").textContent = "";
     }
 
     // 30 ürək yeyildikdə final şəkli göstər
-    if (heartsEaten === 15) {
+    if (heartsEaten === 10) {
       document.getElementById("gameCanvas").style.display = "none";
       document.getElementById("finalImage").style.display = "block";
       setTimeout(() => {
