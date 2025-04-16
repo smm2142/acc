@@ -38,16 +38,14 @@ function drawHeart(x, y) {
 }
 
 function gameLoop() {
-  if (isPaused || gameEnded) return;
+  if (isPaused) return;
+  if (gameEnded) return;
 
   requestAnimationFrame(gameLoop);
 
-  if (++count < 20) return;
+  if (++count = 30) return;
   count = 0;
-if (head.x < 0) head.x = canvas.width - gridSize;
-  else if (head.x >= canvas.width) head.x = 0;
-  if (head.y < 0) head.y = canvas.height - gridSize;
-  else if (head.y >= canvas.height) head.y = 0;
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
@@ -55,18 +53,33 @@ if (head.x < 0) head.x = canvas.width - gridSize;
   if (!isPaused && (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
     snake.some(segment => segment.x === head.x && segment.y === head.y))) {
 
- snake.unshift(head);
+  isPaused = true; // effekti 1 dəfəlik ver
+  document.getElementById("messageBox").textContent = "Ac ayı bir az çaşdı 😅";
+  canvas.style.backgroundColor = "rgba(255,0,0,0.5)";
+
+  setTimeout(() => {
+    canvas.style.backgroundColor = "white";
+    document.getElementById("messageBox").textContent = "";
+    isPaused = false;
+  }, 3000); // 3 saniyəlik dayansın
+}
+
+
+
+  snake.unshift(head);
 
   if (head.x === food.x && head.y === food.y) {
     heartsEaten++;
 
-    if (heartsEaten % 3 === 0 && currentMessageIndex < messages.length) {
+    // Romantik mesajlar
+    if (heartsEaten % 2 === 0 && currentMessageIndex < messages.length) {
       document.getElementById("messageBox").textContent = messages[currentMessageIndex++];
     } else {
       document.getElementById("messageBox").textContent = "";
     }
 
-    if (heartsEaten === 15) {
+    // 30 ürək yeyildikdə final şəkli göstər
+    if (heartsEaten === 10) {
       document.getElementById("gameCanvas").style.display = "none";
       document.getElementById("finalImage").style.display = "block";
       setTimeout(() => {
@@ -81,6 +94,7 @@ if (head.x < 0) head.x = canvas.width - gridSize;
     snake.pop();
   }
 
+  // Uzun, dar ilan
   ctx.fillStyle = "#fa0";
   snake.forEach(segment => {
     ctx.fillRect(segment.x, segment.y, gridSize / 1.5, gridSize);
