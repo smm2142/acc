@@ -43,7 +43,7 @@ function gameLoop() {
 
   requestAnimationFrame(gameLoop);
 
-  if (++count < 20) return;
+  if (++count = 20) return;
   count = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
