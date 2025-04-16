@@ -49,10 +49,16 @@ function gameLoop() {
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
   if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
-      snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-    document.getElementById("messageBox").textContent = "Oyun bitdi 😢";
-    return;
-  }
+    snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+  
+  document.getElementById("messageBox").textContent = "Ac ayı bir az çaşdı ";
+
+  
+  canvas.style.backgroundColor = "rgba(255,0,0,0.5)";
+  setTimeout(() => {
+    canvas.style.backgroundColor = "white";
+  }, 200);
+}
 
   snake.unshift(head);
 
