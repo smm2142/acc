@@ -44,18 +44,18 @@ function gameLoop() {
 
   if (++count < 20) return;
   count = 0;
-
+if (head.x < 0) head.x = canvas.width - gridSize;
+  else if (head.x >= canvas.width) head.x = 0;
+  if (head.y < 0) head.y = canvas.height - gridSize;
+  else if (head.y >= canvas.height) head.y = 0;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
-  // === Kenar keçidini təmin et ===
-  if (head.x < 0) head.x = canvas.width - gridSize;
-  else if (head.x >= canvas.width) head.x = 0;
-  if (head.y < 0) head.y = canvas.height - gridSize;
-  else if (head.y >= canvas.height) head.y = 0;
+  if (!isPaused && (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
+    snake.some(segment => segment.x === head.x && segment.y === head.y))) {
 
-  snake.unshift(head);
+ snake.unshift(head);
 
   if (head.x === food.x && head.y === food.y) {
     heartsEaten++;
@@ -88,6 +88,7 @@ function gameLoop() {
 
   drawHeart(food.x, food.y);
 }
+
 document.addEventListener("keydown", e => {
   switch (e.key) {
     case "ArrowLeft": if (dx === 0) { dx = -gridSize; dy = 0; } break;
