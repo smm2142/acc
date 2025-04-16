@@ -1,5 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+let isPaused = false;
 
 let gridSize = 20;
 let count = 0;
@@ -37,6 +38,7 @@ function drawHeart(x, y) {
 }
 
 function gameLoop() {
+  if (isPaused) return;
   if (gameEnded) return;
 
   requestAnimationFrame(gameLoop);
@@ -48,17 +50,20 @@ function gameLoop() {
 
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
-  if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
-    snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+  if (!isPaused && (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
+    snake.some(segment => segment.x === head.x && segment.y === head.y))) {
 
+  isPaused = true; // effekti 1 dəfəlik ver
   document.getElementById("messageBox").textContent = "Ac ayı bir az çaşdı 😅";
   canvas.style.backgroundColor = "rgba(255,0,0,0.5)";
+
   setTimeout(() => {
     canvas.style.backgroundColor = "white";
     document.getElementById("messageBox").textContent = "";
-  }, 300);
-  
+    isPaused = false;
+  }, 3000); // 3 saniyəlik dayansın
 }
+
 
 
   snake.unshift(head);
