@@ -63,7 +63,13 @@ function gameLoop() {
 
   snake.unshift(head);
 
-  if (Math.abs(head.x - food.x) < gridSize && Math.abs(head.y - food.y) < gridSize) {
+ if (
+  head.x < food.x + gridSize &&
+  head.x + gridSize > food.x &&
+  head.y < food.y + gridSize &&
+  head.y + gridSize > food.y
+) {
+
 
     heartsEaten++;
 
