@@ -42,7 +42,7 @@ function drawHeart(x, y) {
 function gameLoop() {
   if (gameEnded) return;
   requestAnimationFrame(gameLoop);
-  if (++count < 10) return; // Daha yavaş ilan
+  if (++count < 20) return; // Daha yavaş ilan
   count = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -55,11 +55,7 @@ function gameLoop() {
   if (head.y < 0) head.y = canvas.height - gridSize;
   if (head.y >= canvas.height) head.y = 0;
 
-  let hitSelf = snake.some(segment => segment.x === head.x && segment.y === head.y);
-  if (hitSelf) {
-    document.getElementById("messageBox").textContent = "Ac ayı özünü tapdı 😅";
-    return;
-  }
+
 
   snake.unshift(head);
 
