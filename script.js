@@ -13,12 +13,11 @@ let messages = [
   "Ac ayı dərs edə bilməz",
   "Mısıx dolurmu?",
   "Yolu yarıladın dosdaar",
-  "Sebdikcə böyümürükmü?",
+  "Sevdikcə böyümürükmü?",
   "Ac ayı artıq toxdu 🐻❤"
 ];
 let currentMessageIndex = 0;
 let gameEnded = false;
-let isPaused = false;
 
 // ---- HELPERS ----
 function getRandomFood() {
@@ -41,28 +40,24 @@ function drawHeart(x, y) {
 
 // ---- MAIN LOOP ----
 function gameLoop() {
-  if (gameEnded || isPaused) return;
+  if (gameEnded) return;
   requestAnimationFrame(gameLoop);
-  if (++count < 10) return;
+  if (++count < 10) return; // Daha yavaş ilan
   count = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
-  let hitWall = head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height;
-  let hitSelf = snake.some(segment => segment.x === head.x && segment.y === head.y);
+  // Kenardan çıxma - digər tərəfdən gir
+  if (head.x < 0) head.x = canvas.width - gridSize;
+  if (head.x >= canvas.width) head.x = 0;
+  if (head.y < 0) head.y = canvas.height - gridSize;
+  if (head.y >= canvas.height) head.y = 0;
 
-  if ((hitWall || hitSelf)) {
-    isPaused = true;
-    canvas.style.backgroundColor = "rgba(255,0,0,0.4)";
-    document.getElementById("messageBox").textContent = "Ac ayı çaşdı 😅";
-    setTimeout(() => {
-      canvas.style.backgroundColor = "#fff0f5";
-      document.getElementById("messageBox").textContent = "";
-      isPaused = false;
-      gameLoop();
-    }, 3000);
+  let hitSelf = snake.some(segment => segment.x === head.x && segment.y === head.y);
+  if (hitSelf) {
+    document.getElementById("messageBox").textContent = "Ac ayı özünü tapdı 😅";
     return;
   }
 
@@ -79,11 +74,21 @@ function gameLoop() {
 
     if (heartsEaten === 10) {
       document.getElementById("gameCanvas").style.display = "none";
-      document.getElementById("finalImage").style.display = "block";
-      setTimeout(() => {
-        document.getElementById("messageBox").textContent = "Ardı evləndikdən sonra 💍";
-        gameEnded = true;
-      }, 3000);
+      const img = document.getElementById("finalImage");
+      img.style.display = "block";
+
+      // Son mesaj şəkilin üstündə
+      const box = document.getElementById("messageBox");
+      box.textContent = "Ardı evləndikdən sonra 💍";
+      box.style.position = "absolute";
+      box.style.top = "60%";
+      box.style.width = "100%";
+      box.style.textAlign = "center";
+      box.style.fontSize = "24px";
+      box.style.color = "maroon";
+      box.style.fontWeight = "bold";
+
+      gameEnded = true;
       return;
     }
 
