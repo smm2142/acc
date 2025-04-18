@@ -42,7 +42,7 @@ function drawHeart(x, y) {
 function gameLoop() {
   if (gameEnded) return;
   requestAnimationFrame(gameLoop);
-  if (++count < 15) return; // daha yavaş – daha rahat
+  if (++count < 10) return; // daha yavaş – daha rahat
   count = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
