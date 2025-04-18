@@ -63,7 +63,8 @@ function gameLoop() {
 
   snake.unshift(head);
 
-  if (head.x === food.x && head.y === food.y) {
+  if (Math.abs(head.x - food.x) < gridSize && Math.abs(head.y - food.y) < gridSize) {
+
     heartsEaten++;
 
     if (heartsEaten % 2 === 0 && currentMessageIndex < messages.length) {
@@ -100,7 +101,7 @@ function gameLoop() {
   ctx.fillStyle = "#fa0";
   snake.forEach(segment => {
     ctx.beginPath();
-    ctx.roundRect(segment.x, segment.y, gridSize / 1.8, gridSize, 6);
+    ctx.roundRect(segment.x, segment.y, gridSize / 2.1, gridSize, 3);
     ctx.fill();
   });
 
