@@ -30,11 +30,11 @@ function getRandomFood() {
 function drawHeart(x, y) {
   ctx.fillStyle = "red";
   ctx.beginPath();
-  ctx.moveTo(x + 10, y + 10);
-  ctx.bezierCurveTo(x + 10, y, x, y, x, y + 10);
-  ctx.bezierCurveTo(x, y + 20, x + 10, y + 25, x + 10, y + 30);
-  ctx.bezierCurveTo(x + 10, y + 25, x + 20, y + 20, x + 20, y + 10);
-  ctx.bezierCurveTo(x + 20, y, x + 10, y, x + 10, y + 10);
+  ctx.moveTo(x + 15, y + 15);
+  ctx.bezierCurveTo(x + 15, y, x, y, x, y + 15);
+  ctx.bezierCurveTo(x, y + 30, x + 15, y + 35, x + 15, y + 45);
+  ctx.bezierCurveTo(x + 15, y + 35, x + 30, y + 30, x + 30, y + 15);
+  ctx.bezierCurveTo(x + 30, y, x + 15, y, x + 15, y + 15);
   ctx.fill();
 }
 
@@ -42,14 +42,14 @@ function drawHeart(x, y) {
 function gameLoop() {
   if (gameEnded) return;
   requestAnimationFrame(gameLoop);
-  if (++count < 40) return; // Daha yavaş ilan
+  if (++count < 15) return; // daha yavaş – daha rahat
   count = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
-  // Kenardan çıxma - digər tərəfdən gir
+  // Kenardan çıxma – qarşı tərəfdən daxil ol
   if (head.x < 0) head.x = canvas.width - gridSize;
   if (head.x >= canvas.width) head.x = 0;
   if (head.y < 0) head.y = canvas.height - gridSize;
@@ -77,7 +77,6 @@ function gameLoop() {
       const img = document.getElementById("finalImage");
       img.style.display = "block";
 
-      // Son mesaj şəkilin üstündə
       const box = document.getElementById("messageBox");
       box.textContent = "Ardı evləndikdən sonra 💍";
       box.style.position = "absolute";
@@ -97,9 +96,12 @@ function gameLoop() {
     snake.pop();
   }
 
+  // Dar, uzun və yuvarlaq başlıqlı ilan
   ctx.fillStyle = "#fa0";
   snake.forEach(segment => {
-    ctx.fillRect(segment.x, segment.y, gridSize / 1.5, gridSize);
+    ctx.beginPath();
+    ctx.roundRect(segment.x, segment.y, gridSize / 1.8, gridSize, 6);
+    ctx.fill();
   });
 
   drawHeart(food.x, food.y);
@@ -117,3 +119,19 @@ document.addEventListener("keydown", e => {
 
 // ---- START ----
 gameLoop();
+
+// canvas roundRect üçün dəstək yoxdursa, aşağıdakı polyfill əlavə et:
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+    if (w < 2 * r) r = w / 2;
+    if (h < 2 * r) r = h / 2;
+    this.beginPath();
+    this.moveTo(x + r, y);
+    this.arcTo(x + w, y, x + w, y + h, r);
+    this.arcTo(x + w, y + h, x, y + h, r);
+    this.arcTo(x, y + h, x, y, r);
+    this.arcTo(x, y, x + w, y, r);
+    this.closePath();
+    return this;
+  }
+}
